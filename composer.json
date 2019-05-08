@@ -1,0 +1,13 @@
+{
+    "name": "futuri/wssecurity",
+    "authors": [
+        {
+            "name": "Heber Futuri",
+            "email": "h@futuri.pe"
+        }
+    ],
+    "require": {
+        "wsdltophp/wssecurity": "^1.2",
+        "blake-gardner/mac-address": "^2.1"
+    }
+}

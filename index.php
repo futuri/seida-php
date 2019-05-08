@@ -34,8 +34,10 @@ class Seida
             ]
         ]);
 
-        $this->soapClient = new \SoapClient($this->webService,['stream_context' => $context]);
-        $this->soapHeader = WsSecurity::createWsSecuritySoapHeader($this->getUser(), $this->clave_sol, true);
+        $this->soapClient = new \SoapClient($this->webService,['stream_context' => $context, 'exceptions' => 0]);
+        $this->soapClient->soap_defencoding = 'UTF-8';
+        //echo $this->getUser();
+        $this->soapHeader = WsSecurity::createWsSecuritySoapHeader($this->getUser(), $this->clave_sol, false);
     }
 
     /**
@@ -57,13 +59,43 @@ class Seida
 
             return $result;
 
-        } catch (\SOAPFaultException $e) {
-            error_log("recibirArchivo SOAPFaultException: " . $e->getMessage());
         } catch (Exception $e) {
             error_log("recibirArchivo Exception: " . $e->getMessage());
         }
 
         return false;
+    }
+
+    /**
+     * 
+     * @param  String $parametros_consulta
+     * @param  String $ruta
+     * @return ??
+     */
+    public function realizarConsulta(String $parametros_consulta)
+    {
+
+        try {
+            
+            $this->soapClient->__setSoapHeaders($this->soapHeader);
+            $result = $this->soapClient->__soapCall('realizarConsulta', $parametros_consulta);
+            return $result;
+
+        } catch (Exception $e) {
+            error_log("realizarConsulta Exception: " . $e->getMessage());
+        }
+
+        return false;
+    }
+
+    /**
+     * Obtener funciones
+     * @return null
+     */
+    public function test()
+    {
+        //$this->soapClient->__setSoapHeaders($this->soapHeader);
+        var_dump($this->soapClient->__getFunctions());
     }
 
 
@@ -91,10 +123,14 @@ class Seida
 
 }
 
-$seida = new Seida('20312239117','MODDATOS', 'moddatos');
-//$seida = new Seida('20100010136','PILOTONS', 'moddatos');
-$rs = $seida->recibirArchivo('0101','0101.zip');
-echo var_dump($rs);
+$seida = new Seida('20312239117','MODDATOS', 'MODDATOS');
+$seida->test();
 echo var_dump($seida->getUser());
+//$seida = new Seida('20100010136','PILOTONS', 'moddatos');
+/*$rs = $seida->recibirArchivo('0101','0101.zip');
+echo var_dump($rs);
+
+$fileString = base64_encode(fread(fopen('0101.zip', "r"), filesize('0101.zip')));
+echo $fileString;*/
 //enp1s0
 ?>

@@ -1,13 +1,14 @@
 {
-    "name": "futuri/wssecurity",
+    "name": "futuri/seida-php",
     "authors": [
         {
             "name": "Heber Futuri",
-            "email": "h@futuri.pe"
+            "email": "hb.heber@gmail.com"
         }
     ],
     "require": {
         "wsdltophp/wssecurity": "^1.2",
-        "blake-gardner/mac-address": "^2.1"
+        "blake-gardner/mac-address": "^2.1",
+        "yidas/client-ip": "^1.0"
     }
 }

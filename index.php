@@ -76,9 +76,11 @@ class Seida
     {
 
         try {
-            
+            //$consulta = "<consulta><tipo>1</tipo><parametros><numeroTicket>540D3D995F35</numeroTicket><annoTicket>17631</annoTicket></parametros></consulta>";
+            $consulta = "<consulta><tipo>1</tipo><parametros><numeroTicket>17631</numeroTicket><annoTicket>17631</annoTicket></parametros></consulta>";
+
             $this->soapClient->__setSoapHeaders($this->soapHeader);
-            $result = $this->soapClient->__soapCall('realizarConsulta', $parametros_consulta);
+            $result = $this->soapClient->__soapCall("realizarConsulta",['parameters'=>$consulta]);
             return $result;
 
         } catch (Exception $e) {
@@ -113,7 +115,7 @@ class Seida
 
     public function getUser()
     {
-        $macAddress = MacAddress::getCurrentMacAddress('enp1s0');//MacAddress::generateMacAddress();
+        $macAddress = MacAddress::generateMacAddress(); //MacAddress::getCurrentMacAddress('enp1s0');//
         $ipAddress = '192.168.1.26';//ClientIP::get();
 
         $user = [$this->ruc.$this->usuario_sol, $macAddress, $ipAddress, 2];
@@ -123,9 +125,13 @@ class Seida
 
 }
 
-$seida = new Seida('20312239117','MODDATOS', 'MODDATOS');
+$seida = new Seida('20312239117','MODDATOS', 'moddatos');
 $seida->test();
 echo var_dump($seida->getUser());
+
+$rs = $seida->realizarConsulta('');
+echo var_dump($rs);
+
 //$seida = new Seida('20100010136','PILOTONS', 'moddatos');
 /*$rs = $seida->recibirArchivo('0101','0101.zip');
 echo var_dump($rs);
